@@ -1,0 +1,90 @@
+﻿@model OrderBillFath
+@{
+    ViewBag.Title = "订单详情";
+    Layout = "~/Views/_LayoutMaster.cshtml";
+}
+
+<!--ftop开始-->
+<div class="ftop">
+    <a class="back" onClick="javascript:history.back(-1);"><img src="/Content/images/icon_03.png"></a>
+    <h2>订单详情</h2>
+    <a class="comea"></a>
+    <div style="clear: both;"></div>
+</div>
+<!--ftop开始-->
+<!--个人中心-订单详情-->
+<div class="orderdetail">
+    @{
+        string State = "";
+        string imgurl = "";
+        switch (Model.State)
+        {
+            case 0:
+                imgurl = "dengfukuan_03.png";
+                State = "待付款";
+                break;
+            case 1:
+                imgurl = "dengfuhuo_03.png";
+                State = "待发货";
+                break;
+            case 2:
+                State = "待收货";
+                break;
+            case 3:
+                State = "待评价";
+                break;
+        }
+        <div class="state"><img src="/Content/images/@imgurl" alt="">@State</div>
+        <div class="dizhi">
+            <p><spa>收货人：@Model.Consignee</spa><i>@Model.Phone</i></p>
+            <h6>收货地址：@Model.ReceivingAddress</h6>
+        </div>
+            <div class="qingdan">
+                <div class="num"><span>商品清单</span><i>@State</i></div>
+
+
+                <div class="list">
+                    @{
+                        int i = 0;
+                        foreach (var item in Model.OrderBillChis.Where(o => o.Code == Model.Code))
+                        {
+                            i++;
+                            <div class="sg">
+                                <a href="@Url.Action("ProDetails", "Product", new { code=item.Product.Code})" class="imga"><img src="@item.Product.ProPhotoes.FirstOrDefault(p=>p.No==0).ImgUrl" alt=""></a>
+                                <div class="text">
+                                    <a class="name" href="@Url.Action("ProDetails", "Product", new { code=item.Product.Code})"><span><i>@item.Product.Name</i>@*<em>规格：258g*2袋</em>*@</span><span class="price"><i>¥@item.UnitPrice</i><em>x @item.Qty</em></span></a>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+
+                </div>
+                <div class="sum">共<i>@i</i>件商品，合计: <i>￥<em>@Model.SumPrice</em></i>(含快递费)</div>
+            </div>
+            <div class="tail">
+                <h3>支付信息</h3>
+                <dl><dt>订单金额</dt><dd>¥@Model.OrderPrice</dd></dl>
+                <dl><dt>运费</dt><dd>¥@Model.ExpressPrice</dd></dl>
+                <dl><dt>应支付</dt><dd><i>¥<em>@Model.SumPrice</em></i></dd></dl>
+                <dl><dt>备注</dt><dd>@(Model.Memo == "" ? "无" : Model.Memo)</dd></dl>
+            </div>
+            <div class="tail">
+                <h3>订单信息</h3>
+                <dl><dt>订单编号</dt><dd>@Model.Code</dd></dl>
+                <dl><dt>创建时间</dt><dd>@Model.CreateTime</dd></dl>
+                @(Html.Raw(Model.PayTime == null ? "" : $"<dl><dt>付款时间</dt><dd>{Model.PayTime}</dd></dl>"))
+                @(Html.Raw(Model.PostTime == null ? "" : $"<dl><dt>付款时间</dt><dd>{Model.PostTime}</dd></dl>"))
+                @(Html.Raw(Model.ReceTime == null ? "" : $"<dl><dt>付款时间</dt><dd>{Model.ReceTime}</dd></dl>"))
+            </div>
+            <div class="caozuo"><a>取消订单</a></div>
+    }
+</div>
+<!--个人中心-订单详情-->
+
+
+@section Style
+    {
+    <link href="/Content/css/center.css" type="text/css" rel="stylesheet">
+}

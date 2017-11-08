@@ -1,0 +1,518 @@
+﻿@model WeShop.Wexin.Models.MyOrderViewModel
+@{
+    ViewBag.Title = "我的订单";
+    Layout = "~/Views/_LayoutMaster.cshtml";
+}
+
+
+<!--ftop开始-->
+<div class="ftop">
+    <a class="back" onClick="javascript:history.back(-1);"><img src="/Content/images/icon_03.png"></a>
+    <h2>我的订单</h2>
+    <a class="comea" href="search.html"><img src="/Content/images/centerorder_03.png" alt="搜索"></a>
+    <div style="clear: both;"></div>
+</div>
+<!--ftop开始-->
+<!--定位分类-->
+<div class="orderkind">
+    <a class="on"><span>全部</span></a>
+    <a href="javascript:void(0)"><span>待付款</span></a>
+    <a href="javascript:void(0)"><span>待发货</span></a>
+    <a href="javascript:void(0)"><span>待收货</span></a>
+    <a href="javascript:void(0)"><span>待评价</span></a>
+</div>
+<!--定位分类-->
+<!--个人中心-订单-->
+<div class="centerorder">
+    <div class="list">
+        <div class="swiper-container">
+            <div class="swiper-wrapper w">
+                <div class="swiper-slide d">
+                    <div class="init-loading list-group-item text-center" style="display: none;">下拉可以刷新</div>
+                    <div class="swiper-container2">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide list-group">
+                                @{
+
+                                    int i = 0;
+
+                                    foreach (var Fathr in Model.WholeOrder)
+                                    {
+                                        string State = "";
+                                        switch (Fathr.State)
+                                        {
+                                            case 0:
+                                                State = "待付款";
+                                                break;
+                                            case 1:
+                                                State = "待发货";
+                                                break;
+                                            case 2:
+                                                State = "待收货";
+                                                break;
+                                            case 3:
+                                                State = "待评价";
+                                                break;
+                                        }
+
+                                <div class="sg">
+                                    <a class="num" href="@Url.Action("OrderDetails",new { Code = Fathr.Code})"><span>订单号：@Fathr.Code</span><i>@State</i></a>
+                                    @foreach (var Chi in Fathr.OrderBillChis.Where(o => o.Code == Fathr.Code))
+                                            {
+                                                i++;
+                                            <div class="thing">
+                                                <a href="@Url.Action("ProDetails","Product",new {code= Chi.Product.Code })" class="imga"><img src="@Chi.Product.ProPhotoes.FirstOrDefault(p=>p.No==0).ImgUrl" alt=""></a>
+                                                <div class="text">
+                                                    <a class="name" href="@Url.Action("ProDetails","Product",new {code= Chi.Product.Code })"><span><i>@Chi.Product.Name</i>@*<em>规格：258g*2袋</em>*@</span><span class="price"><i>¥ @Chi.UnitPrice</i><em>x @Chi.Qty</em></span></a>
+                                                    @*<a class="discuss" href="center-order-pingjia.html">评价</a>*@
+                                                </div>
+                                            </div>
+                                            }
+
+                                    <div class="sum">共<i>@i</i>件商品  合计：<b>¥<em>@Fathr.SumPrice</em></b></div>
+                                    <div class="caozuo"><a href="pay_order.html" class="paya">付款</a><a class="canclea">取消订单</a></div>
+                                </div>
+                                    }
+                                }
+                            </div>
+                            <div class="swiper-slide list-group">
+                                <div class="sg">
+                                    <a class="num" href="center-order-success.html"><span>订单号：SH49871643154</span><i>交易成功</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_14.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_16.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>3</i>件商品  合计：<b>¥<em>270</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-yifahuo.html"><span>订单号：SH49871643154</span><i>卖家已发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="center-order-wuliu.html" class="watcha">查看物流</a><a class="surea">确认收货</a><a href="center-order-shenqing.html">申请退款</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfukuan.html"><span>订单号：SH49871643154</span><i>等待买家付款</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="pay_order.html" class="paya">付款</a><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfahuo.html"><span>订单号：SH49871643154</span><i>等待卖家发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-guanbi.html"><span>订单号：SH49871643154</span><i>交易关闭</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide list-group">
+                                <div class="sg">
+                                    <a class="num" href="center-order-success.html"><span>订单号：SH49871643154</span><i>交易成功</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_14.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_16.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>3</i>件商品  合计：<b>¥<em>270</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-yifahuo.html"><span>订单号：SH49871643154</span><i>卖家已发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="center-order-wuliu.html" class="watcha">查看物流</a><a class="surea">确认收货</a><a href="center-order-shenqing.html">申请退款</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfukuan.html"><span>订单号：SH49871643154</span><i>等待买家付款</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="pay_order.html" class="paya">付款</a><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfahuo.html"><span>订单号：SH49871643154</span><i>等待卖家发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-guanbi.html"><span>订单号：SH49871643154</span><i>交易关闭</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide list-group">
+                                <div class="sg">
+                                    <a class="num" href="center-order-success.html"><span>订单号：SH49871643154</span><i>交易成功</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_14.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_16.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>3</i>件商品  合计：<b>¥<em>270</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-yifahuo.html"><span>订单号：SH49871643154</span><i>卖家已发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="center-order-wuliu.html" class="watcha">查看物流</a><a class="surea">确认收货</a><a href="center-order-shenqing.html">申请退款</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfukuan.html"><span>订单号：SH49871643154</span><i>等待买家付款</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="pay_order.html" class="paya">付款</a><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfahuo.html"><span>订单号：SH49871643154</span><i>等待卖家发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-guanbi.html"><span>订单号：SH49871643154</span><i>交易关闭</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide list-group">
+                                <div class="sg">
+                                    <a class="num" href="center-order-success.html"><span>订单号：SH49871643154</span><i>交易成功</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_14.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_16.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：258g*2袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                            <a class="discuss" href="center-order-pingjia.html">评价</a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>3</i>件商品  合计：<b>¥<em>270</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-yifahuo.html"><span>订单号：SH49871643154</span><i>卖家已发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="center-order-wuliu.html" class="watcha">查看物流</a><a class="surea">确认收货</a><a href="center-order-shenqing.html">申请退款</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfukuan.html"><span>订单号：SH49871643154</span><i>等待买家付款</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a href="pay_order.html" class="paya">付款</a><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-dengfahuo.html"><span>订单号：SH49871643154</span><i>等待卖家发货</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="canclea">取消订单</a></div>
+                                </div>
+                                <div class="sg">
+                                    <a class="num" href="center-order-guanbi.html"><span>订单号：SH49871643154</span><i>交易关闭</i></a>
+                                    <div class="thing">
+                                        <a href="product_xq.html" class="imga"><img src="/Content/images/centerorder_11.png" alt=""></a>
+                                        <div class="text">
+                                            <a class="name" href="product_xq.html"><span><i>享食者每日混合坚果大礼包享食者每日混合坚果大礼包</i><em>规格：25g*7袋</em></span><span class="price"><i>¥90</i><em>x1</em></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="sum">共<i>1</i>件商品  合计：<b>¥<em>90</em></b></div>
+                                    <div class="caozuo"><a class="deletea">删除订单</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="loadtip">上拉加载更多</div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+</div>
+<!--个人中心-订单-->
+<!--很多弹窗-->
+<div class="popbg"></div>
+<div class="pop popdelete">
+    <h2>确认删除订单？</h2>
+    <p>您真的要删除该订单吗？</p>
+    <div class="only"><a>取消</a><a>确认</a></div>
+</div>
+<div class="pop popcancle">
+    <h2>确认取消订单？</h2>
+    <p>您真的要取消该订单吗？</p>
+    <div class="only"><a>取消</a><a>确认</a></div>
+</div>
+<div class="pop popsure">
+    <h2>确认收货</h2>
+    <p>您真的要确认收货吗？</p>
+    <div class="only"><a>取消</a><a>确认</a></div>
+</div>
+<!--很多弹窗-->
+
+
+
+
+@section Style
+    {
+    <link href="~/Content/css/index.css" rel="stylesheet" />
+    <link href="/Content/css/center.css" type="text/css" rel="stylesheet">
+    <link href="/Content/css/swiper.min.css" type="text/css" rel="stylesheet">
+}
+@section Script
+    {
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/swiper.jquery.min.js"></script>
+    <script>
+        $(function () {
+            //删除订单
+            $(".caozuo .deletea").click(function () {
+                $("body,html").css({ "overflow": "hidden" });
+                $(".popbg").fadeIn();
+                $(".popdelete").fadeIn();
+            })
+            //取消订单
+            $(".caozuo .canclea").click(function () {
+                $("body,html").css({ "overflow": "hidden" });
+                $(".popbg").fadeIn();
+                $(".popcancle").fadeIn();
+            })
+            //确认收货
+            $(".caozuo .surea").click(function () {
+                $("body,html").css({ "overflow": "hidden" });
+                $(".popbg").fadeIn();
+                $(".popsure").fadeIn();
+            })
+            //关闭弹窗
+            $(".pop .only a").click(function () {
+                $("body,html").css({ "overflow": "auto" });
+                $(".popbg").fadeOut();
+                $(".pop").fadeOut();
+
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        var loadFlag = true;
+        var oi = 0;
+        var mySwiper = new Swiper('.swiper-container', {
+            direction: 'vertical',
+            scrollbar: '.swiper-scrollbar',
+            slidesPerView: 'auto',
+            mousewheelControl: true,
+            freeMode: true,
+            onTouchMove: function (swiper) {		//手动滑动中触发
+                var _viewHeight = document.getElementsByClassName('swiper-wrapper')[0].offsetHeight;
+                var _contentHeight = document.getElementsByClassName('swiper-slide')[0].offsetHeight;
+
+
+                if (mySwiper.translate < 50 && mySwiper.translate > 0) {
+                    $(".init-loading").html('下拉刷新...').show();
+                } else if (mySwiper.translate > 50) {
+                    $(".init-loading").html('释放刷新...').show();
+                }
+            },
+            onTouchEnd: function (swiper) {
+                var _viewHeight = document.getElementsByClassName('swiper-wrapper')[0].offsetHeight;
+                var _contentHeight = document.getElementsByClassName('swiper-slide')[0].offsetHeight;
+                // 上拉加载
+                if (mySwiper.translate <= _viewHeight - _contentHeight - 50 && mySwiper.translate < 0) {
+                    // console.log("已经到达底部！");
+
+                    if (loadFlag) {
+                        $(".loadtip").html('正在加载...');
+                    } else {
+                        $(".loadtip").html('没有更多啦！');
+                    }
+
+                    setTimeout(function () {
+                        for (var i = 0; i < 6; i++) {
+                            oi++;
+                            $(".list-group ul").eq(mySwiper2.activeIndex).append('<li><a href="1234567"><img src="/Content/images/img_010.jpg"><div class="search_item"><p>商品1</p><h2><i> </i><b>100.00</b><span>月销18252笔</span></h2></div></a></li>');
+                        }
+                        $(".loadtip").html('上拉加载更多...');
+                        mySwiper.update(); // 重新计算高度;
+                    }, 800);
+                }
+
+                // 下拉刷新
+                if (mySwiper.translate >= 50) {
+                    $(".init-loading").html('正在刷新...').show();
+                    $(".loadtip").html('上拉加载更多');
+                    loadFlag = true;
+                    setTimeout(function () {
+                        $(".refreshtip").show(0);
+                        $(".init-loading").html('刷新成功！');
+                        setTimeout(function () {
+                            $(".init-loading").html('').hide();
+                        }, 800);
+                        $(".loadtip").show(0);
+                        //刷新操作
+                        mySwiper.update(); // 重新计算高度;
+                    }, 1000);
+                } else if (mySwiper.translate >= 0 && mySwiper.translate < 50) {
+                    $(".init-loading").html('').hide();
+                }
+                return false;
+            }
+        });
+        var mySwiper2 = new Swiper('.swiper-container2', {
+            onTransitionEnd: function (swiper) {
+                $('.w').css('transform', 'translate3d(0px, 0px, 0px)')
+                $('.swiper-container2 .swiper-slide-active').css('height', 'auto').siblings('.swiper-slide').css('height', '0px');
+                mySwiper.update();
+                $('.orderkind a').eq(mySwiper2.activeIndex).addClass('on').siblings('a').removeClass('on');
+            }
+        });
+        $('.orderkind a').click(function () {
+
+            $(this).addClass('on').siblings('a').removeClass('on');
+            mySwiper2.slideTo($(this).index(), 500, false)
+            $('.w').css('transform', 'translate3d(0px, 0px, 0px)')
+            $('.swiper-container2 .swiper-slide-active').css('height', 'auto').siblings('.swiper-slide').css('height', '0px');
+            mySwiper.update();
+        });
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Views/_LayoutMaster.cshtml";
+
+}
+@section Style
+{
+    @RenderSection("Style", false)
+}
+
+@section Script
+{
+    @RenderSection("Script", false)
+
+    <script type="text/javascript">
+        var title = document.title;
+        if (title == "首页") {
+            document.getElementById("Index").classList.add("current");
+        } else if (title == "商品分类") {
+            document.getElementById("Sort").classList.add("current");
+        } else if (title == "购物车") {
+            document.getElementById("Car").classList.add("current");
+        } else if (title == "个人中心") {
+            document.getElementById("Center").classList.add("current");
+        }
+    </script>
+}
+
+@RenderBody()
+<!--fixft开始-->
+<div class="fixft">
+    <a href="@Url.Action("Index","Home")" id="Index">
+        <span><img src="~/Content/images/navicon_45.png" class="img1"><img src="~/Content/images/navicon_28.png" class="img2"></span>
+        <i>首页</i>
+    </a>
+    <a href="@Url.Action("Sort","Product")" id="Sort">
+        <span><img src="~/Content/images/navicon_48.png" class="img1"><img src="~/Content/images/navicon_30.png" class="img2"></span>
+        <i>分类</i>
+    </a>
+    <a href="@Url.Action("ShopCart","PersonalCenter")" id="Car">
+        <span><img src="~/Content/images/navicon_50.png" class="img1"><img src="~/Content/images/navicon_32.png" class="img2"></span>
+        <i>购物车</i>
+    </a>
+    <a href="@Url.Action("Center","PersonalCenter")" id="Center">
+        <span><img src="~/Content/images/navicon_42.png" class="img1"><img src="~/Content/images/navicon_35.png" class="img2"></span>
+        <i>我的</i>
+    </a>
+</div>
+<!--fixft结束-->
